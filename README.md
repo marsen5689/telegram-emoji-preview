@@ -1,11 +1,10 @@
 # Telegram Emoji Preview for VS Code
 
-**Read this in:** [🇺🇦 Українською](README.uk.md) · [Русский](README.ru.md)  
 **Contact:** https://t.me/syumer
 
 ## Preview
 
-![Hover preview](src/assets/img1.png)
+![Hover preview](https://raw.githubusercontent.com/marsen5689/telegram-emoji-preview/refs/heads/main/src/assets/img1.png)
 
 This extension lets you preview Telegram custom emojis directly in VS Code. Hover the tag (specifically `emoji-id`) to see the image.
 
