@@ -1,7 +1,7 @@
 ```md
 # Telegram Emoji Preview for VS Code
 
-**Мова:** [🇬🇧 English](README.md) · [Русский](README_ru.md)  
+**Мова:** [🇬🇧 English](README.md) · [Русский](README.ru.md)  
 **Звʼязок:** https://t.me/syumer
 
 ## Preview

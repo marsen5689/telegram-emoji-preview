@@ -1,6 +1,6 @@
 # Telegram Emoji Preview for VS Code
 
-**Read this in:** [🇺🇦 Українською](README_uk.md) · [Русский](README_ru.md)  
+**Read this in:** [🇺🇦 Українською](README.uk.md) · [Русский](README.ru.md)  
 **Contact:** https://t.me/syumer
 
 ## Preview
