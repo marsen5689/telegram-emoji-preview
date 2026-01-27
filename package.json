@@ -2,9 +2,10 @@
   "name": "telegram-emoji-preview",
   "displayName": "Telegram Emoji Preview",
   "description": "Preview Telegram custom emojis in code via Hover",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "publisher": "syumer", 
   "icon": "icon.png",   
+  "license": "MIT",
   "engines": {
     "vscode": "^1.80.0"
   },
