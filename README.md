@@ -27,12 +27,44 @@ The extension requires a Telegram bot token (Telegram API doesn’t provide file
 
 ## 🚀 Usage
 
-The extension works with `<tg-emoji>` tags (the standard HTML format used by Telegram bots).
 
-Example:
+The extension works with `<tg-emoji>` tags and `icon_custom_emoji_id` parameters.
 
+### Supported formats:
+
+#### 1. Standard HTML Tag
+```html
+<tg-emoji emoji-id="5368324170671202286"></tg-emoji>
+```
+
+#### 2. Python / Aiogram (icon_custom_emoji_id)
 ```python
-await message.answer(
-    'Hello <tg-emoji emoji-id="5368324170671202286">👍</tg-emoji>',
-    parse_mode="HTML"
+button = InlineKeyboardButton(
+    text="My Button", 
+    icon_custom_emoji_id="5368324170671202286"
 )
+```
+
+#### 3. Variables (ID taken from variable definition in the same file)
+The extension can resolve variables if they are defined as string constants in the same file.
+
+**Python example:**
+```python
+MY_ICON_ID = "5368324170671202286"
+
+# This works! Hover over MY_ICON_ID or icon_custom_emoji_id
+button = InlineKeyboardButton(
+    text="Button",
+    icon_custom_emoji_id=MY_ICON_ID 
+)
+```
+
+**JavaScript / React example:**
+```javascript
+const UPLOAD_ICON = "5368324170671202286";
+
+// All these formats work:
+const a = <tg-emoji emoji-id={UPLOAD_ICON} />;
+const b = <tg-emoji emoji-id="UPLOAD_ICON" />;
+const c = { icon_custom_emoji_id: UPLOAD_ICON };
+```

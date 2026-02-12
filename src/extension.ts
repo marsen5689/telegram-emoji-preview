@@ -18,18 +18,34 @@ export function activate(context: vscode.ExtensionContext) {
                 return new vscode.Hover(md);
             }
 
+            // Regex supports:
+            // 1. <tg-emoji emoji-id="123" or "VAR" or {VAR}>
+            // 2. icon_custom_emoji_id="123" or "VAR" or VAR or {VAR}
             const range = document.getWordRangeAtPosition(
                 position,
-                /(<tg-emoji emoji-id=['"](\d+)['"]>.*?<\/tg-emoji>)|(icon_custom_emoji_id=['"](\d+)['"])/
+                /(<tg-emoji\s+emoji-id\s*=\s*['"{]?([\w_]+)['"}]?>.*?<\/tg-emoji>)|(icon_custom_emoji_id\s*=\s*['"{]?([\w_]+)['"}]?)/
             );
 
             if (!range) return null;
 
             const text = document.getText(range);
-            const match = /(?:emoji-id=['"](\d+)['"])|(?:icon_custom_emoji_id=['"](\d+)['"])/.exec(text);
+            // Capture groups: 
+            // 1. html tag inner ID
+            // 2. property ID
+            const match = /(?:emoji-id\s*=\s*['"{]?([\w_]+)['"}]?)|(?:icon_custom_emoji_id\s*=\s*['"{]?([\w_]+)['"}]?)/.exec(text);
 
             if (!match) return null;
-            const emojiId = match[1] || match[2];
+            let emojiId = match[1] || match[2];
+
+            if (emojiId && !/^\d+$/.test(emojiId)) {
+                const docText = document.getText();
+                const varMatch = new RegExp(`\\b${emojiId}\\s*=\\s*['"](\\d+)['"]`).exec(docText);
+                if (varMatch) {
+                    emojiId = varMatch[1];
+                } else {
+                    return null;
+                }
+            }
 
             // 3. Получаем URL (из кэша или сети)
             let url = emojiUrlCache.get(emojiId);
