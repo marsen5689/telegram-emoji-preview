@@ -8,7 +8,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     const hoverProvider = vscode.languages.registerHoverProvider({ scheme: 'file' }, {
         async provideHover(document, position, token) {
-            
+
             const config = vscode.workspace.getConfiguration('telegramEmojiPreview');
             const botToken = config.get<string>('botToken');
 
@@ -19,17 +19,17 @@ export function activate(context: vscode.ExtensionContext) {
             }
 
             const range = document.getWordRangeAtPosition(
-                position, 
-                /<tg-emoji emoji-id=['"](\d+)['"]>.*?<\/tg-emoji>/
+                position,
+                /(<tg-emoji emoji-id=['"](\d+)['"]>.*?<\/tg-emoji>)|(icon_custom_emoji_id=['"](\d+)['"])/
             );
 
             if (!range) return null;
 
             const text = document.getText(range);
-            const match = /emoji-id=['"](\d+)['"]/.exec(text);
-            
+            const match = /(?:emoji-id=['"](\d+)['"])|(?:icon_custom_emoji_id=['"](\d+)['"])/.exec(text);
+
             if (!match) return null;
-            const emojiId = match[1];
+            const emojiId = match[1] || match[2];
 
             // 3. Получаем URL (из кэша или сети)
             let url = emojiUrlCache.get(emojiId);
@@ -47,8 +47,8 @@ export function activate(context: vscode.ExtensionContext) {
             // 4. Показываем картинку
             const md = new vscode.MarkdownString();
             md.supportHtml = true;
-            md.appendMarkdown(`### Preview\n![Emoji](${url}|height=100)`); 
-            
+            md.appendMarkdown(`### Preview\n![Emoji](${url}|height=100)`);
+
             return new vscode.Hover(md, range);
         }
     });
@@ -87,4 +87,4 @@ export function activate(context: vscode.ExtensionContext) {
     }
 }
 
-export function deactivate() {}
+export function deactivate() { }
